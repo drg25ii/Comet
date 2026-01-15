@@ -15,7 +15,9 @@ ARG DATABASE_PATH
 
 # Copiază fișierele de configurare a proiectului
 COPY pyproject.toml .
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+    && apt-get install -y git gcc g++ python3-dev build-essential pkg-config \
+    && rm -rf /var/lib/apt/lists/*
 RUN uv sync
 
 # Copiază restul codului sursă
