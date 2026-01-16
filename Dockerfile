@@ -1,25 +1,15 @@
-FROM ghcr.io/astral-sh/uv:python3.11-alpine
+# Folosim imaginea oficială Comet de pe Docker Hub (nu GitHub)
+FROM g0ldyy/comet:latest
 
-LABEL name="Comet" \
-      description="Stremio's fastest torrent/debrid search add-on." \
-      url="https://github.com/g0ldyy/comet"
-
-RUN apk add --no-cache \
-    git gcc musl-dev python3-dev linux-headers
-
-WORKDIR /app
-
-ARG DATABASE_PATH
-
-COPY pyproject.toml ./
-# Fără uv.lock încă - elimină --frozen temporar
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync
-
-COPY . .
-
+# Setările obligatorii pentru Hugging Face
 ENV PORT=7860
-ENV FASTAPI_HOST=0.0.0.0
+ENV HOST=0.0.0.0
+ENV COMET_PORT=7860
+ENV COMET_HOST=0.0.0.0
+
+# Expunem portul
 EXPOSE 7860
 
-ENTRYPOINT ["uv", "run", "python", "-m", "comet.main", "--port", "7860", "--host", "0.0.0.0"]
+# Pornim Comet (imaginea oficială are deja setat entrypoint-ul, 
+# dar îl forțăm pe portul corect dacă e nevoie)
+CMD ["python", "-m", "comet.main"]
