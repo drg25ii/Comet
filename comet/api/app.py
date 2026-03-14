@@ -65,8 +65,8 @@ async def lifespan(app: FastAPI):
         await download_best_trackers()
 
     # Load anime ID mapping for enhanced metadata and anime detection
-    async with aiohttp.ClientSession() as session:
-        await anime_mapper.load_anime_mapping(session)
+    #async with aiohttp.ClientSession() as session:
+    #    await anime_mapper.load_anime_mapping(session)
 
     # Initialize bandwidth monitoring system
     if settings.PROXY_DEBRID_STREAM:
